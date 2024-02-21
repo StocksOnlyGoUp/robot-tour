@@ -15,8 +15,11 @@ const int BI2_left = 13;
 const int PWMB_left = 11;
 
 int switchPin = 7;
+int curTime = 0;
+bool timeTaken = false;
 
 void setup() {
+  // Serial.begin(9600);
   // put your setup code here, to run once:
   pinMode(switchPin, INPUT_PULLUP);
   
@@ -33,17 +36,37 @@ void setup() {
   pinMode(BI1_left, OUTPUT);
   pinMode(BI2_left, OUTPUT);
   pinMode(PWMB_left, OUTPUT);
-
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if (digitalRead(switchPin) == LOW){
-    forward();
-  }
-  else {
+  // if (digitalRead(switchPin) == LOW){
+  //   forward();
+  //   delay(5000);
+  //   stop();
+  // }
+  // else {
+  //   stop();
+  // }
+  // while(digitalRead(switchPin == LOW)){
+  // if (digitalRead(switchPin) != 0) {
+
+  // }
+  if (digitalRead(switchPin) == 0) {
+    if ((millis() - curTime) <= 5000) {
+      forward();
+    } else {
+      stop();
+    }
+    if (!timeTaken) {
+      curTime = millis();
+      timeTaken = true;
+    }
+  } else {
+    curTime = millis();
     stop();
   }
+  // Serial.println(millis() - curTime);
 }
 
 void stop(){
