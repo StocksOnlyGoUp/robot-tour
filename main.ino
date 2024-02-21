@@ -6,7 +6,7 @@ const int BI1_right = 4;
 const int BI2_right = 3;
 const int PWMB_right = 6;
 
-// // Motor Driver - Left Side
+// Motor Driver - Left Side
 const int PWMA_left = 10;
 const int AI2_left = 8;
 const int AI1_left = 9;
