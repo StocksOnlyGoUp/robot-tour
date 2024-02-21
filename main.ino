@@ -1,18 +1,18 @@
 // Motor Driver - Right Side
-const int PWMA_right = 11; 
-const int AI2_right = 12;
-const int AI1_right = 13;
-const int BI1_right = 8;
-const int BI2_right = 9;
-const int PWMB_right = 10;
+const int PWMA_right = 5;
+const int AI2_right = 1;
+const int AI1_right = 2;
+const int BI1_right = 4;
+const int BI2_right = 3;
+const int PWMB_right = 6;
 
-// Motor Driver - Left Side
-const int PWMA_left = 6;
-const int AI2_left = 4;
-const int AI1_left = 3;
-const int BI1_left = 2;
-const int BI2_left = 1;
-const int PWMB_left = 5;
+// // Motor Driver - Left Side
+const int PWMA_left = 10;
+const int AI2_left = 8;
+const int AI1_left = 9;
+const int BI1_left = 12;
+const int BI2_left = 13;
+const int PWMB_left = 11;
 
 int switchPin = 7;
 
@@ -53,7 +53,7 @@ void stop(){
   analogWrite(PWMB_left, 0);
 }
 
-void forward(){
+void backward(){
   analogWrite(PWMA_right, 255);
   digitalWrite(AI2_right, LOW);
   digitalWrite(AI1_right, HIGH);
@@ -69,7 +69,7 @@ void forward(){
   analogWrite(PWMB_left, 255);
 }
 
-void backward(){
+void forward(){
   analogWrite(PWMA_right, 255);
   digitalWrite(AI2_right, HIGH);
   digitalWrite(AI1_right, LOW);
