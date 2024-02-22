@@ -87,6 +87,26 @@ void backward(int time){
   stop();
 }
 
+void rotateRight(int time) {
+  analogWrite(PWMA_right, 255);
+  digitalWrite(AI2_right, LOW);
+  digitalWrite(AI1_right, HIGH);
+  digitalWrite(BI1_right, HIGH);
+  digitalWrite(BI2_right, LOW);
+  analogWrite(PWMB_right, 255);
+  
+  analogWrite(PWMA_left, 255);
+  digitalWrite(AI2_left, HIGH);
+  digitalWrite(AI1_left, LOW);
+  digitalWrite(BI1_left, LOW);
+  digitalWrite(BI2_left, HIGH);
+  analogWrite(PWMB_left, 255);
+
+  delay(time * 1000);
+
+  stop();
+}
+
 void stop() {
   analogWrite(PWMA_right, 0); 
   analogWrite(PWMB_right, 0);
