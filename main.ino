@@ -15,13 +15,14 @@ const int BI2_left = 13;
 const int PWMB_left = 11;
 
 int switchPin = 7;
-int curTime = 0;
-bool timeTaken = false;
+
+bool courseDone = false;
 
 void setup() {
-  // put your setup code here, to run once:
   pinMode(switchPin, INPUT_PULLUP);
-  
+
+  attachInterrupt(digitalPinToInterrupt(switchPin), stop, FALLING);
+
   pinMode(PWMA_right, OUTPUT);
   pinMode(AI2_right, OUTPUT);
   pinMode(AI1_right, OUTPUT);
@@ -35,86 +36,60 @@ void setup() {
   pinMode(BI1_left, OUTPUT);
   pinMode(BI2_left, OUTPUT);
   pinMode(PWMB_left, OUTPUT);
-  
-  // Serial.begin(9600);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  if (digitalRead(switchPin) == 0) { // If switch is on
+  if (!courseDone && digitalRead(switchPin) == LOW) {
     forward(5);
-  } 
-  else {
-    stop();
+    delay(1000);
+    backward(5);
+    courseDone = true; 
   }
 }
 
-void stop(){
+void forward(int time) {
+  analogWrite(PWMA_right, 255);
+  digitalWrite(AI2_right, HIGH);
+  digitalWrite(AI1_right, LOW);
+  digitalWrite(BI1_right, LOW);
+  digitalWrite(BI2_right, HIGH);
+  analogWrite(PWMB_right, 255);
+  
+  analogWrite(PWMA_left, 255);
+  digitalWrite(AI2_left, HIGH);
+  digitalWrite(AI1_left, LOW);
+  digitalWrite(BI1_left, LOW);
+  digitalWrite(BI2_left, HIGH);
+  analogWrite(PWMB_left, 255);
+
+  delay(time * 1000);
+
+  stop();
+}
+
+void backward(int time){
+  analogWrite(PWMA_right, 255);
+  digitalWrite(AI2_right, LOW);
+  digitalWrite(AI1_right, HIGH);
+  digitalWrite(BI1_right, HIGH);
+  digitalWrite(BI2_right, LOW);
+  analogWrite(PWMB_right, 255);
+  
+  analogWrite(PWMA_left, 255);
+  digitalWrite(AI2_left, LOW);
+  digitalWrite(AI1_left, HIGH);
+  digitalWrite(BI1_left, HIGH);
+  digitalWrite(BI2_left, LOW);
+  analogWrite(PWMB_left, 255);
+
+  delay(time * 1000);
+
+  stop();
+}
+
+void stop() {
   analogWrite(PWMA_right, 0); 
   analogWrite(PWMB_right, 0);
   analogWrite(PWMA_left, 0);
   analogWrite(PWMB_left, 0);
-}
-
-void forward(int seconds){
-  if (!timeTaken) {
-    curTime = millis();
-    timeTaken = true;
-  }
-
-  if ((millis() - curTime) <= (seconds * 1000)){
-    analogWrite(PWMA_right, 255);
-    digitalWrite(AI2_right, HIGH);
-    digitalWrite(AI1_right, LOW);
-    digitalWrite(BI1_right, LOW);
-    digitalWrite(BI2_right, HIGH);
-    analogWrite(PWMB_right, 255);
-    
-    analogWrite(PWMA_left, 255);
-    digitalWrite(AI2_left, HIGH);
-    digitalWrite(AI1_left, LOW);
-    digitalWrite(BI1_left, LOW);
-    digitalWrite(BI2_left, HIGH);
-    analogWrite(PWMB_left, 255);
-  }
-  else {
-    stop();
-  }
-}
-
-//THIS METHOD DOESN'T WORK YET
-void backward(int seconds){
-  if (!timeTaken) {
-    curTime = millis();
-    timeTaken = true;
-  }
-
-  if ((millis() - curTime) <= (seconds * 1000)){
-    analogWrite(PWMA_right, 255);
-    digitalWrite(AI2_right, LOW);
-    digitalWrite(AI1_right, HIGH);
-    digitalWrite(BI1_right, HIGH);
-    digitalWrite(BI2_right, LOW);
-    analogWrite(PWMB_right, 255);
-    
-    analogWrite(PWMA_left, 255);
-    digitalWrite(AI2_left, LOW);
-    digitalWrite(AI1_left, HIGH);
-    digitalWrite(BI1_left, HIGH);
-    digitalWrite(BI2_left, LOW);
-    analogWrite(PWMB_left, 255);
-  }
-  else {
-    stop();
-    timeTaken = false; 
-    return; 
-  }
-}
-
-void right(){
-
-}
-
-void left(){
-  
 }
